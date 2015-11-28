@@ -58,10 +58,10 @@ def render(template, out_file, variables):
 	rendered_template.dump(out_file)
 
 if __name__ == '__main__':
-	argumentParser = argparse.ArgumentParser(prog='marathon_template', description='Script that\'s used to generate ha_proxy config file from marathon')
+	argumentParser = argparse.ArgumentParser(prog='marathon_template', description='Script that\'s used to generate config files from marathon')
 	argumentParser.add_argument('-m', '--marathon', help='Marathon URI', required=True)
-	argumentParser.add_argument('-a', '--app_name', type=to_set, help='App name for which haproxy config needs to be generated', required=True)
-	argumentParser.add_argument('-t', '--template_file', help='Template file which on which rendering would be done', required=True)
+	argumentParser.add_argument('-a', '--app_name', type=to_set, help='App name for which config needs to be generated', required=True)
+	argumentParser.add_argument('-t', '--template_file', help='Template file for rendering', required=True)
 	argumentParser.add_argument('-o', '--out_file', help='Output file', required=True)
 
 	args = argumentParser.parse_args()
