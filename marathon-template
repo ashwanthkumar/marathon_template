@@ -24,10 +24,15 @@ def all_apps_on(marathon_uri):
   app_ids = map(lambda app: app["id"].strip("/"), apps)
   return app_ids
 
+def is_healthy_task(task):
+  result = len(filter(lambda healthCheck: not healthCheck["alive"], task["healthCheckResults"])) == 0
+  return bool(result)
+
 def fetch_tasks(marathon_uri, app_id):
   app = http(marathon_uri+"/v2/apps/"+app_id)
   app_tasks = app["app"]["tasks"]
-  tasks = map(lambda task: MarathonTaskInfo(task["host"], task["ports"]), app_tasks)
+  alive_tasks = filter(lambda task: is_healthy_task(task), app_tasks)
+  tasks = map(lambda task: MarathonTaskInfo(task["host"], task["ports"]), alive_tasks)
   return tasks
 
 def tasks_for(marathon_url, apps):
